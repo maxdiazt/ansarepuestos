@@ -1,0 +1,85 @@
+<section class="trust-section">
+  <div class="container">
+    <div class="trust-grid">
+      <div class="trust-feature">
+        <div class="trust-icon" aria-hidden="true">🔍</div>
+        <h3>Búsqueda por modelo</h3>
+        <p>Filtra directamente por marca y modelo exacto de tu vehículo. Sin confusiones ni compatibilidades dudosas.</p>
+      </div>
+      <div class="trust-feature">
+        <div class="trust-icon" aria-hidden="true">✅</div>
+        <h3>Compatibilidad garantizada</h3>
+        <p>Cada repuesto muestra los vehículos compatibles. Compra con certeza total.</p>
+      </div>
+      <div class="trust-feature">
+        <div class="trust-icon" aria-hidden="true">🚚</div>
+        <h3>Despacho a todo Chile</h3>
+        <p>Enviamos en 24–48 horas hábiles. Gratis sobre $50.000 en compras.</p>
+      </div>
+      <div class="trust-feature">
+        <div class="trust-icon" aria-hidden="true">💬</div>
+        <h3>Asesoría técnica</h3>
+        <p>¿Dudas? Nuestro equipo técnico te ayuda a identificar el repuesto correcto para tu auto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.trust-section {
+  padding: 64px 0;
+  border-top: 1px solid var(--color-border);
+}
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.trust-feature {
+  background: var(--color-card);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: background var(--transition);
+}
+.trust-feature:hover { background: #1c1c22; }
+.trust-icon {
+  font-size: 24px;
+  width: 50px; height: 50px;
+  background: rgba(232,53,15,.08);
+  border: 1px solid rgba(232,53,15,.18);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+}
+.trust-feature h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.trust-feature p {
+  font-size: 13px;
+  color: var(--color-muted);
+  line-height: 1.55;
+}
+@media (max-width: 900px) {
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .trust-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Características / Confianza",
+  "tag": "div",
+  "presets": [{ "name": "Características ANSA" }]
+}
+{% endschema %}

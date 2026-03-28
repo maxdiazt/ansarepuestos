@@ -1,0 +1,79 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "ANSA Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "Repuestos ANSA",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Color acento (rojo)",
+        "default": "#e8350f"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Fondo principal",
+        "default": "#0a0a0c"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Fondo secundario",
+        "default": "#111114"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Texto principal",
+        "default": "#f0eff5"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Fuente títulos",
+        "default": "barlow_condensed_n8"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Fuente cuerpo",
+        "default": "barlow_n3"
+      }
+    ]
+  },
+  {
+    "name": "Store Info",
+    "settings": [
+      {
+        "type": "text",
+        "id": "store_phone",
+        "label": "Teléfono",
+        "default": "+56 2 XXXX XXXX"
+      },
+      {
+        "type": "text",
+        "id": "store_hours",
+        "label": "Horario",
+        "default": "Lun–Vie 9:00–18:00"
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_threshold",
+        "label": "Monto envío gratis (CLP)",
+        "default": "50000"
+      }
+    ]
+  }
+]

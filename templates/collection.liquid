@@ -1,0 +1,143 @@
+{% comment %}
+  Collection template — Repuestos ANSA
+  Maneja colecciones con handle: {marca}--{modelo}--{categoria}
+  Ej: renault--logan--mantencion
+{% endcomment %}
+
+{% assign handle_parts = collection.handle | split: '--' %}
+{% assign col_marca    = handle_parts[0] %}
+{% assign col_modelo   = handle_parts[1] | replace: '-', ' ' | capitalize %}
+{% assign col_cat      = handle_parts[2] %}
+
+<div class="collection-page">
+  <div class="container">
+
+    <!-- BREADCRUMB -->
+    <nav class="breadcrumb" aria-label="Navegación" style="padding: 20px 0;">
+      <a href="/">Inicio</a>
+      <span class="breadcrumb-sep">›</span>
+      <a href="/#brand-selector">Marcas</a>
+      {% if col_marca != blank %}
+        <span class="breadcrumb-sep">›</span>
+        <a href="/collections/{{ col_marca }}">{{ col_marca | capitalize }}</a>
+      {% endif %}
+      {% if col_modelo != blank and handle_parts.size > 1 %}
+        <span class="breadcrumb-sep">›</span>
+        <span>{{ col_modelo | capitalize }}</span>
+      {% endif %}
+      {% if col_cat != blank and handle_parts.size > 2 %}
+        <span class="breadcrumb-sep">›</span>
+        <span class="current">{{ collection.title }}</span>
+      {% endif %}
+    </nav>
+
+    <!-- HEADER -->
+    <div class="collection-header">
+      <div class="collection-header__info">
+        {% if col_marca != blank %}
+          <div class="eyebrow" style="margin-bottom:12px">{{ col_marca | upcase }}</div>
+        {% endif %}
+        <h1 class="heading" style="font-size:clamp(32px,4vw,54px)">
+          {{ collection.title }}
+        </h1>
+        {% if collection.description != blank %}
+          <div class="collection-desc">{{ collection.description }}</div>
+        {% endif %}
+        <div class="collection-meta" style="margin-top:12px;font-size:13px;color:var(--color-muted)">
+          {{ collection.products_count }} {{ 'general.products' | t }}
+        </div>
+      </div>
+
+      <!-- SORT -->
+      <div class="collection-sort">
+        <label for="sort-by" class="visually-hidden">Ordenar por</label>
+        <select
+          id="sort-by"
+          class="select"
+          style="width:200px"
+          onchange="window.location = '{{ collection.url }}?sort_by=' + this.value"
+        >
+          {% assign sort_options = 'manual,best-selling,title-ascending,title-descending,price-ascending,price-descending,created-descending' | split: ',' %}
+          {% assign sort_labels  = 'Destacados,Más vendidos,Nombre A-Z,Nombre Z-A,Precio ↑,Precio ↓,Más nuevos' | split: ',' %}
+          {% for opt in sort_options %}
+            {% assign lbl_idx = forloop.index0 %}
+            <option
+              value="{{ opt }}"
+              {% if collection.sort_by == opt or (collection.sort_by == blank and opt == 'manual') %}selected{% endif %}
+            >
+              {{ sort_labels[lbl_idx] }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    {% paginate collection.products by 24 %}
+
+      {% if collection.products_count > 0 %}
+        <div class="products-grid" style="margin-top:32px">
+          {% for product in collection.products %}
+            {% render 'product-card', product: product %}
+          {% endfor %}
+        </div>
+
+        <!-- PAGINATION -->
+        {% if paginate.pages > 1 %}
+          <nav class="pagination" role="navigation" aria-label="Paginación">
+            {% if paginate.previous %}
+              <a href="{{ paginate.previous.url }}" aria-label="Anterior">‹</a>
+            {% endif %}
+
+            {% for part in paginate.parts %}
+              {% if part.is_link %}
+                <a href="{{ part.url }}">{{ part.title }}</a>
+              {% elsif part.title == paginate.current_page %}
+                <span class="current" aria-current="page">{{ part.title }}</span>
+              {% else %}
+                <span>{{ part.title }}</span>
+              {% endif %}
+            {% endfor %}
+
+            {% if paginate.next %}
+              <a href="{{ paginate.next.url }}" aria-label="Siguiente">›</a>
+            {% endif %}
+          </nav>
+        {% endif %}
+
+      {% else %}
+        <div class="collection-empty">
+          <p>No se encontraron productos en esta categoría.</p>
+          <a href="/" class="btn btn-primary" style="margin-top:20px">Buscar en otra categoría</a>
+        </div>
+      {% endif %}
+
+    {% endpaginate %}
+
+  </div>
+</div>
+
+<style>
+.collection-page { padding: 0 0 80px; }
+.collection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+.collection-desc {
+  font-size: 14px;
+  color: var(--color-muted);
+  max-width: 600px;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+.collection-empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--color-muted);
+}
+</style>

@@ -1,0 +1,61 @@
+{
+  "general": {
+    "search": "Buscar",
+    "close": "Cerrar",
+    "cart": "Carro",
+    "loading": "Cargando...",
+    "add_to_cart": "Agregar al carro",
+    "sold_out": "Sin stock",
+    "unavailable": "No disponible",
+    "view_product": "Ver producto",
+    "products": "productos"
+  },
+  "navigation": {
+    "brands": "Marcas",
+    "offers": "Ofertas",
+    "technical": "Consulta técnica",
+    "contact": "Contacto"
+  },
+  "cart": {
+    "title": "Tu carro",
+    "empty": "Tu carro está vacío",
+    "subtotal": "Subtotal",
+    "checkout": "Ir al pago",
+    "continue_shopping": "Seguir comprando",
+    "remove": "Eliminar",
+    "quantity": "Cantidad"
+  },
+  "product": {
+    "brand": "Marca",
+    "model": "Modelo",
+    "category": "Categoría",
+    "sku": "Código",
+    "description": "Descripción",
+    "compatible_with": "Compatible con",
+    "related_products": "Productos relacionados"
+  },
+  "collection": {
+    "filter_by": "Filtrar por",
+    "sort_by": "Ordenar por",
+    "sort_options": {
+      "manual": "Destacados",
+      "best-selling": "Más vendidos",
+      "title-ascending": "Nombre A-Z",
+      "title-descending": "Nombre Z-A",
+      "price-ascending": "Precio menor a mayor",
+      "price-descending": "Precio mayor a menor",
+      "created-descending": "Más nuevos"
+    },
+    "no_results": "No se encontraron productos",
+    "products_count": "{{ count }} productos"
+  },
+  "brands": {
+    "select_brand": "Selecciona tu marca",
+    "select_model": "Selecciona el modelo",
+    "select_category": "Selecciona categoría de repuesto",
+    "models_available": "modelos disponibles",
+    "step_1": "01 — Selecciona tu marca",
+    "step_2": "02 — Selecciona el modelo",
+    "step_3": "03 — Selecciona categoría de repuesto"
+  }
+}

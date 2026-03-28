@@ -1,0 +1,174 @@
+{% comment %}
+  ANSA Brand Data — Estructura de marcas, modelos y categorías
+  Categorías copiadas de repuestos.dercocenter.cl
+
+  Nivel 1 (familias):
+    ACCESORIOS & HERRAMIENTAS
+    CARROCERÍA
+    DESGASTE
+    ESPECIALIDADES
+    MANTENCIÓN
+    REPARACIÓN
+
+  Nivel 2 (subcategorías por familia):
+    Ver estructura completa abajo.
+
+  USO: {% render 'brand-data' %}
+  Expone: brand_data (JSON string para JS)
+{% endcomment %}
+
+{% assign brand_data_json = '
+{
+  "marcas": [
+    {
+      "handle": "renault",
+      "nombre": "Renault",
+      "modelos": [
+        "Logan","Sandero","Sandero Stepway","Duster","Kwid","Symbol",
+        "Megane","Fluence","Clio","Captur","Koleos","Kangoo","Master",
+        "Trafic","Scenic","Laguna","Latitude","Express"
+      ]
+    },
+    {
+      "handle": "mazda",
+      "nombre": "Mazda",
+      "modelos": [
+        "Mazda 2","Mazda 3","Mazda 6","CX-3","CX-5","CX-9",
+        "BT-50","MX-5","CX-30","CX-50","323","626"
+      ]
+    },
+    {
+      "handle": "suzuki",
+      "nombre": "Suzuki",
+      "modelos": [
+        "Swift","Vitara","Grand Vitara","Jimny","Baleno",
+        "Dzire","Ciaz","Ignis","S-Cross","Alto"
+      ]
+    },
+    {
+      "handle": "great-wall",
+      "nombre": "Great Wall",
+      "modelos": [
+        "Wingle 5","Wingle 7","H1","H2","H5","H6","Voleex C30"
+      ]
+    },
+    {
+      "handle": "changan",
+      "nombre": "Changan",
+      "modelos": [
+        "CS35","CS35 Plus","CS55","CS55 Plus","CS75","Alsvin",
+        "Eado","UNI-T","Oshan X5","CS95"
+      ]
+    }
+  ],
+  "categorias": [
+    {
+      "familia": "MANTENCION",
+      "label": "Mantención",
+      "icono": "🔧",
+      "handle": "mantencion",
+      "subcategorias": [
+        { "label": "Filtro de aceite",       "handle": "filtro-de-aceite" },
+        { "label": "Filtro de aire",         "handle": "filtro-de-aire" },
+        { "label": "Filtro de combustible",  "handle": "filtro-de-combustible" },
+        { "label": "Filtro habitáculo",      "handle": "filtro-habitaculo" },
+        { "label": "Bujías",                 "handle": "bujias" },
+        { "label": "Correa de distribución", "handle": "correa-de-distribucion" },
+        { "label": "Correa accesorios",      "handle": "correa-accesorios" },
+        { "label": "Tapón carter",           "handle": "tapon-carter" },
+        { "label": "Aceites y lubricantes",  "handle": "aceites-y-lubricantes" },
+        { "label": "Líquido de frenos",      "handle": "liquido-de-frenos" },
+        { "label": "Líquido refrigerante",   "handle": "liquido-refrigerante" }
+      ]
+    },
+    {
+      "familia": "DESGASTE",
+      "label": "Desgaste",
+      "icono": "⚙️",
+      "handle": "desgaste",
+      "subcategorias": [
+        { "label": "Pastillas de freno delanteras",  "handle": "pastillas-freno-delanteras" },
+        { "label": "Pastillas de freno traseras",    "handle": "pastillas-freno-traseras" },
+        { "label": "Discos de freno delanteros",     "handle": "discos-freno-delanteros" },
+        { "label": "Discos de freno traseros",       "handle": "discos-freno-traseros" },
+        { "label": "Zapatas de freno",               "handle": "zapatas-de-freno" },
+        { "label": "Escobillas limpiaparabrisas",    "handle": "escobillas-limpiaparabrisas" },
+        { "label": "Batería",                        "handle": "bateria" }
+      ]
+    },
+    {
+      "familia": "REPARACION",
+      "label": "Reparación",
+      "icono": "🔩",
+      "handle": "reparacion",
+      "subcategorias": [
+        { "label": "Amortiguador delantero",    "handle": "amortiguador-delantero" },
+        { "label": "Amortiguador trasero",      "handle": "amortiguador-trasero" },
+        { "label": "Bombín de embrague",        "handle": "bombin-de-embrague" },
+        { "label": "Horquilla de embrague",     "handle": "horquilla-de-embrague" },
+        { "label": "Disco de embrague",         "handle": "disco-de-embrague" },
+        { "label": "Bomba de agua",             "handle": "bomba-de-agua" },
+        { "label": "Termostato",                "handle": "termostato" },
+        { "label": "Radiador",                  "handle": "radiador" },
+        { "label": "Depósito auxiliar radiador","handle": "deposito-auxiliar-radiador" },
+        { "label": "Electro ventilador",        "handle": "electroventilador" },
+        { "label": "Tapa radiador",             "handle": "tapa-radiador" },
+        { "label": "Válvula de escape",         "handle": "valvula-de-escape" },
+        { "label": "Cadena de distribución",    "handle": "cadena-de-distribucion" },
+        { "label": "Sensor ABS",                "handle": "sensor-abs" },
+        { "label": "Sensor oxígeno",            "handle": "sensor-oxigeno" }
+      ]
+    },
+    {
+      "familia": "CARROCERIA",
+      "label": "Carrocería",
+      "icono": "🚗",
+      "handle": "carroceria",
+      "subcategorias": [
+        { "label": "Defensa delantera",         "handle": "defensa-delantera" },
+        { "label": "Defensa trasera",           "handle": "defensa-trasera" },
+        { "label": "Capot",                     "handle": "capot" },
+        { "label": "Parrilla delantera",        "handle": "parrilla-delantera" },
+        { "label": "Faro delantero derecho",    "handle": "faro-delantero-derecho" },
+        { "label": "Faro delantero izquierdo",  "handle": "faro-delantero-izquierdo" },
+        { "label": "Faro trasero derecho",      "handle": "faro-trasero-derecho" },
+        { "label": "Faro trasero izquierdo",    "handle": "faro-trasero-izquierdo" },
+        { "label": "Espejo retrovisor derecho", "handle": "espejo-retrovisor-derecho" },
+        { "label": "Espejo retrovisor izquierdo","handle": "espejo-retrovisor-izquierdo" },
+        { "label": "Manilla puerta",            "handle": "manilla-puerta" },
+        { "label": "Vidrio parabrisas",         "handle": "vidrio-parabrisas" },
+        { "label": "Rejilla bajo óptico",       "handle": "rejilla-bajo-optico" }
+      ]
+    },
+    {
+      "familia": "ESPECIALIDADES",
+      "label": "Especialidades",
+      "icono": "⚡",
+      "handle": "especialidades",
+      "subcategorias": [
+        { "label": "Alternador",                "handle": "alternador" },
+        { "label": "Motor arranque",            "handle": "motor-arranque" },
+        { "label": "Bobina encendido",          "handle": "bobina-encendido" },
+        { "label": "Módulo ABS",                "handle": "modulo-abs" },
+        { "label": "Caja de dirección",         "handle": "caja-de-direccion" },
+        { "label": "Bomba dirección hidráulica","handle": "bomba-direccion" },
+        { "label": "Compresor A/C",             "handle": "compresor-ac" },
+        { "label": "Condensador A/C",           "handle": "condensador-ac" }
+      ]
+    },
+    {
+      "familia": "ACCESORIOS",
+      "label": "Accesorios y Herramientas",
+      "icono": "🛠️",
+      "handle": "accesorios-y-herramientas",
+      "subcategorias": [
+        { "label": "Alfombras",                 "handle": "alfombras" },
+        { "label": "Fundas asientos",           "handle": "fundas-asientos" },
+        { "label": "Tapas válvula",             "handle": "tapas-valvula" },
+        { "label": "Llaveros y accesorios",     "handle": "llaveros-y-accesorios" },
+        { "label": "Triángulos y kit emergencia","handle": "kit-emergencia" }
+      ]
+    }
+  ]
+}
+' %}

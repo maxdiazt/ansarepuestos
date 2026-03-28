@@ -1,0 +1,12 @@
+{
+  "current": {
+    "color_accent": "#e8350f",
+    "color_bg": "#0a0a0c",
+    "color_surface": "#111114",
+    "color_text": "#f0eff5",
+    "store_phone": "+56 2 XXXX XXXX",
+    "store_hours": "Lun–Vie 9:00–18:00",
+    "free_shipping_threshold": "50000"
+  },
+  "presets": {}
+}

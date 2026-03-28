@@ -1,0 +1,73 @@
+{% comment %}Search Template — Repuestos ANSA{% endcomment %}
+
+<div class="search-page">
+  <div class="container">
+
+    <div class="page-header" style="padding: 40px 0 48px;">
+      <div class="eyebrow" style="margin-bottom:12px">Buscar</div>
+      <h1 class="heading" style="font-size:clamp(28px,4vw,48px)">
+        {% if search.performed %}
+          {{ search.results_count }} resultado{% if search.results_count != 1 %}s{% endif %} para "{{ search.terms }}"
+        {% else %}
+          Buscador de repuestos
+        {% endif %}
+      </h1>
+    </div>
+
+    <!-- SEARCH FORM -->
+    <form action="/search" method="get" class="search-form">
+      <input type="hidden" name="type" value="product">
+      <div class="search-input-wrap">
+        <input
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="Buscar repuesto, código, modelo..."
+          class="input search-input"
+          autofocus
+          aria-label="Buscar productos"
+        >
+        <button type="submit" class="btn btn-primary search-btn">Buscar</button>
+      </div>
+    </form>
+
+    <!-- RESULTS -->
+    {% if search.performed %}
+      {% if search.results_count > 0 %}
+        <div class="products-grid" style="margin-top: 40px;">
+          {% for result in search.results %}
+            {% if result.object_type == 'product' %}
+              {% render 'product-card', product: result %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="search-empty">
+          <p>No se encontraron resultados para "<strong>{{ search.terms }}</strong>".</p>
+          <p>Intenta buscar por código de repuesto, nombre del producto o modelo de auto.</p>
+          <a href="/" class="btn btn-secondary" style="margin-top: 20px;">Buscar por marca y modelo</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+  </div>
+</div>
+
+<style>
+.search-page { padding-bottom: 80px; }
+.search-form { margin-top: 24px; }
+.search-input-wrap {
+  display: flex;
+  gap: 12px;
+  max-width: 600px;
+}
+.search-input { font-size: 15px; }
+.search-btn { flex-shrink: 0; padding: 12px 28px; }
+.search-empty {
+  padding: 60px 0;
+  color: var(--color-muted);
+  max-width: 500px;
+}
+.search-empty p { font-size: 15px; margin-bottom: 8px; line-height: 1.6; }
+.search-empty strong { color: var(--color-text); }
+</style>

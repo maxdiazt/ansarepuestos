@@ -1,0 +1,78 @@
+{% comment %}
+  Product Card Snippet
+  Parámetros:
+    product: objeto product de Shopify
+    show_vendor: boolean (default true)
+{% endcomment %}
+
+{% assign show_vendor = show_vendor | default: true %}
+{% assign product_url = product.url | within: collection %}
+
+<div class="product-card">
+  {% if product.compare_at_price > product.price %}
+    <div class="product-card__sale-badge">
+      <span class="badge-sale">
+        -{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price | round }}%
+      </span>
+    </div>
+  {% endif %}
+
+  <a href="{{ product_url }}" class="product-card__image" aria-label="{{ product.title }}">
+    {% if product.featured_image %}
+      <img
+        src="{{ product.featured_image | img_url: '400x400', crop: 'center' }}"
+        alt="{{ product.featured_image.alt | default: product.title }}"
+        loading="lazy"
+        width="400"
+        height="400"
+      >
+    {% else %}
+      <img src="{{ 'product-placeholder.svg' | asset_url }}" alt="{{ product.title }}" width="400" height="400">
+    {% endif %}
+
+    {% unless product.available %}
+      <div class="product-card__sold-out">Sin stock</div>
+    {% endunless %}
+  </a>
+
+  <div class="product-card__body">
+    {% if show_vendor and product.vendor != blank %}
+      <div class="product-card__brand">{{ product.vendor }}</div>
+    {% endif %}
+
+    <a href="{{ product_url }}" class="product-card__title">{{ product.title }}</a>
+
+    {% if product.metafields.custom.sku != blank %}
+      <div class="product-card__sku">Cód: {{ product.metafields.custom.sku }}</div>
+    {% endif %}
+
+    <div class="product-card__price">
+      <span class="product-card__price-current">
+        {{ product.price | money }}
+      </span>
+      {% if product.compare_at_price > product.price %}
+        <span class="product-card__price-compare">
+          {{ product.compare_at_price | money }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="product-card__footer">
+    {% if product.available %}
+      <form action="/cart/add" method="post" data-add-to-cart-form>
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          data-add-to-cart-btn
+          {% unless product.available %}disabled{% endunless %}
+        >
+          Agregar al carro
+        </button>
+      </form>
+    {% else %}
+      <button class="btn btn-secondary" disabled>Sin stock</button>
+    {% endif %}
+  </div>
+</div>

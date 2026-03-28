@@ -1,0 +1,57 @@
+<section class="featured-products-section">
+  <div class="container">
+    <div class="section-label">
+      <h2>{{ section.settings.heading | default: '04 — Productos destacados' }}</h2>
+    </div>
+
+    {% if section.settings.collection != blank %}
+      {% assign featured_collection = collections[section.settings.collection] %}
+      {% if featured_collection != blank and featured_collection.products_count > 0 %}
+        <div class="products-grid">
+          {% for product in featured_collection.products limit: section.settings.products_limit %}
+            {% render 'product-card', product: product %}
+          {% endfor %}
+        </div>
+
+        {% if section.settings.show_view_all %}
+          <div class="featured-products__cta">
+            <a href="{{ featured_collection.url }}" class="btn btn-secondary">
+              Ver todos los productos →
+            </a>
+          </div>
+        {% endif %}
+      {% else %}
+        <p class="text-muted" style="color:var(--color-muted);font-size:14px;">
+          No hay productos en esta colección aún.
+        </p>
+      {% endif %}
+    {% else %}
+      <p class="text-muted" style="color:var(--color-muted);font-size:14px;">
+        Selecciona una colección en la configuración de esta sección.
+      </p>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+.featured-products-section { padding: 64px 0; }
+.featured-products__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Productos Destacados",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título", "default": "04 — Productos destacados" },
+    { "type": "collection", "id": "collection", "label": "Colección a mostrar" },
+    { "type": "range", "id": "products_limit", "label": "Número de productos", "min": 4, "max": 12, "step": 4, "default": 8 },
+    { "type": "checkbox", "id": "show_view_all", "label": "Mostrar botón 'Ver todos'", "default": true }
+  ],
+  "presets": [{ "name": "Productos Destacados" }]
+}
+{% endschema %}

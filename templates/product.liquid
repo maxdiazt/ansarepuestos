@@ -1,0 +1,413 @@
+{% comment %}
+  Product Template — Repuestos ANSA
+{% endcomment %}
+
+<div class="product-page">
+  <div class="container">
+
+    <!-- BREADCRUMB -->
+    <nav class="breadcrumb" aria-label="Navegación" style="padding: 20px 0 32px;">
+      <a href="/">Inicio</a>
+      <span class="breadcrumb-sep">›</span>
+      {% if collection %}
+        <a href="{{ collection.url }}">{{ collection.title }}</a>
+        <span class="breadcrumb-sep">›</span>
+      {% endif %}
+      <span class="current">{{ product.title }}</span>
+    </nav>
+
+    <div class="product-layout">
+
+      <!-- GALERÍA -->
+      <div class="product-gallery">
+        <div class="product-gallery__main" id="gallery-main">
+          {% if product.featured_image %}
+            <img
+              src="{{ product.featured_image | img_url: '800x800', crop: 'center' }}"
+              alt="{{ product.featured_image.alt | default: product.title }}"
+              id="gallery-main-img"
+              width="800" height="800"
+            >
+          {% else %}
+            <img src="{{ 'product-placeholder.svg' | asset_url }}" alt="{{ product.title }}" width="800" height="800">
+          {% endif %}
+        </div>
+
+        {% if product.images.size > 1 %}
+          <div class="product-gallery__thumbs">
+            {% for image in product.images limit: 6 %}
+              <button
+                class="gallery-thumb{% if forloop.first %} is-active{% endif %}"
+                onclick="ANSA.setImage('{{ image | img_url: '800x800', crop: 'center' }}', this)"
+                aria-label="Ver imagen {{ forloop.index }}"
+              >
+                <img src="{{ image | img_url: '120x120', crop: 'center' }}" alt="" width="120" height="120" loading="lazy">
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- INFO -->
+      <div class="product-info">
+
+        <div class="product-info__vendor">{{ product.vendor }}</div>
+
+        <h1 class="product-info__title heading">{{ product.title }}</h1>
+
+        {% if product.metafields.custom.sku != blank %}
+          <div class="product-info__sku">Código: {{ product.metafields.custom.sku }}</div>
+        {% endif %}
+
+        <!-- PRECIO -->
+        <div class="product-info__price">
+          {% if product.compare_at_price > product.price %}
+            <span class="price-current">{{ product.price | money }}</span>
+            <span class="price-compare">{{ product.compare_at_price | money }}</span>
+            <span class="badge-sale">
+              -{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price | round }}%
+            </span>
+          {% else %}
+            <span class="price-current">{{ product.price | money }}</span>
+          {% endif %}
+        </div>
+
+        <!-- COMPATIBILIDAD -->
+        {% if product.metafields.custom.compatible_models != blank %}
+          <div class="product-info__compat">
+            <div class="compat-label">Compatible con:</div>
+            <div class="compat-tags">
+              {% assign compat_list = product.metafields.custom.compatible_models | split: ',' %}
+              {% for item in compat_list %}
+                <span class="compat-tag">{{ item | strip }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- VARIANTES -->
+        {% if product.variants.size > 1 %}
+          <div class="product-info__variants">
+            <label for="variant-select">Variante</label>
+            <select id="variant-select" class="select" onchange="ANSA.updateVariant(this)">
+              {% for variant in product.variants %}
+                <option
+                  value="{{ variant.id }}"
+                  {% unless variant.available %}disabled{% endunless %}
+                  data-price="{{ variant.price | money }}"
+                >
+                  {{ variant.title }}{% unless variant.available %} — Sin stock{% endunless %}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        {% endif %}
+
+        <!-- ADD TO CART -->
+        <form action="/cart/add" method="post" data-add-to-cart-form class="product-form">
+          <input type="hidden" name="id" id="variant-id" value="{{ product.selected_or_first_available_variant.id }}">
+
+          <div class="product-form__qty">
+            <label for="quantity">Cantidad</label>
+            <div class="qty-control">
+              <button type="button" onclick="ANSA.qtyChange(-1)" aria-label="Disminuir">−</button>
+              <input type="number" id="quantity" name="quantity" value="1" min="1" max="99" class="qty-input">
+              <button type="button" onclick="ANSA.qtyChange(1)" aria-label="Aumentar">+</button>
+            </div>
+          </div>
+
+          {% if product.available %}
+            <button type="submit" class="btn btn-primary product-form__submit" data-add-to-cart-btn>
+              Agregar al carro
+            </button>
+          {% else %}
+            <button type="button" class="btn btn-secondary" disabled>Sin stock</button>
+          {% endif %}
+        </form>
+
+        <!-- GARANTIAS -->
+        <div class="product-trust">
+          <div class="product-trust__item">
+            <span>🚚</span> Despacho en 24–48h hábiles
+          </div>
+          <div class="product-trust__item">
+            <span>✅</span> Repuesto original / alternativo garantizado
+          </div>
+          <div class="product-trust__item">
+            <span>🔄</span> Devoluciones dentro de 7 días
+          </div>
+        </div>
+
+        <!-- DESCRIPCIÓN -->
+        {% if product.description != blank %}
+          <div class="product-description">
+            <button class="product-desc-toggle" onclick="ANSA.toggleDesc(this)" aria-expanded="false">
+              <span>Descripción del producto</span>
+              <span class="toggle-icon">+</span>
+            </button>
+            <div class="product-desc-content" id="product-desc" hidden>
+              {{ product.description }}
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+    <!-- PRODUCTOS RELACIONADOS -->
+    {% if collection and collection.products_count > 1 %}
+      <div class="related-products">
+        <div class="section-label" style="margin-top:64px">
+          <h2>Otros productos de {{ collection.title }}</h2>
+        </div>
+        <div class="products-grid">
+          {% for related in collection.products limit: 4 %}
+            {% if related.id != product.id %}
+              {% render 'product-card', product: related %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+<style>
+.product-page { padding: 0 0 80px; }
+.product-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* Gallery */
+.product-gallery__main {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  aspect-ratio: 1;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.product-gallery__main img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  padding: 24px;
+  transition: transform var(--transition);
+}
+.product-gallery__thumbs {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.gallery-thumb {
+  width: 72px; height: 72px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color var(--transition);
+  padding: 4px;
+}
+.gallery-thumb img { width: 100%; height: 100%; object-fit: contain; }
+.gallery-thumb.is-active,
+.gallery-thumb:hover { border-color: var(--color-accent); }
+
+/* Info */
+.product-info__vendor {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 10px;
+}
+.product-info__title {
+  font-size: clamp(24px, 3vw, 40px);
+  margin-bottom: 8px;
+}
+.product-info__sku {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-bottom: 20px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: .04em;
+}
+.product-info__price {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.price-current {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 36px;
+  color: var(--color-text);
+}
+.price-compare {
+  font-size: 18px;
+  color: var(--color-muted);
+  text-decoration: line-through;
+}
+
+/* Compatibility */
+.product-info__compat {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 24px;
+}
+.compat-label {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 10px;
+}
+.compat-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.compat-tag {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  border-radius: var(--radius-sm);
+}
+
+/* Variants */
+.product-info__variants { margin-bottom: 20px; }
+
+/* Form */
+.product-form { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+.product-form__qty { display: flex; flex-direction: column; gap: 6px; }
+.qty-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  width: fit-content;
+}
+.qty-control button {
+  background: var(--color-card);
+  border: none;
+  color: var(--color-text);
+  width: 42px; height: 42px;
+  font-size: 18px;
+  transition: background var(--transition);
+}
+.qty-control button:hover { background: var(--color-border); }
+.qty-input {
+  width: 60px;
+  border: none;
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-align: center;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  height: 42px;
+  outline: none;
+}
+.product-form__submit { padding: 16px; font-size: 15px; }
+
+/* Trust */
+.product-trust {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.product-trust__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+.product-trust__item span { font-size: 16px; }
+
+/* Description accordion */
+.product-description { border-top: 1px solid var(--color-border); }
+.product-desc-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+.product-desc-toggle:hover { color: var(--color-accent); }
+.toggle-icon { font-size: 20px; transition: transform .3s; }
+.product-desc-toggle[aria-expanded="true"] .toggle-icon { transform: rotate(45deg); }
+.product-desc-content {
+  padding-bottom: 20px;
+  font-size: 14px;
+  color: var(--color-muted);
+  line-height: 1.65;
+}
+.product-desc-content[hidden] { display: none; }
+
+@media (max-width: 900px) {
+  .product-layout { grid-template-columns: 1fr; gap: 32px; }
+}
+</style>
+
+<script>
+// Extend global ANSA object
+window.ANSA = window.ANSA || {};
+
+ANSA.setImage = function(src, thumbBtn) {
+  document.getElementById('gallery-main-img').src = src;
+  document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('is-active'));
+  thumbBtn.classList.add('is-active');
+};
+
+ANSA.updateVariant = function(select) {
+  const opt = select.options[select.selectedIndex];
+  document.getElementById('variant-id').value = select.value;
+};
+
+ANSA.qtyChange = function(delta) {
+  const input = document.getElementById('quantity');
+  const newVal = Math.max(1, Math.min(99, parseInt(input.value) + delta));
+  input.value = newVal;
+};
+
+ANSA.toggleDesc = function(btn) {
+  const content = document.getElementById('product-desc');
+  const expanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', !expanded);
+  if (expanded) content.setAttribute('hidden', '');
+  else content.removeAttribute('hidden');
+};
+</script>

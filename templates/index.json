@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "heading_line1": "Repuestos para",
+        "heading_line2": "tu auto,",
+        "heading_line3": "al precio justo.",
+        "subheading": "Selecciona tu marca, modelo y categoría. Encontrarás el repuesto exacto que necesitas para Renault, Mazda, Suzuki, Great Wall y Changan."
+      }
+    },
+    "brand_selector": {
+      "type": "brand-selector",
+      "settings": {}
+    },
+    "featured_products": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "04 — Productos destacados",
+        "products_limit": 8,
+        "show_view_all": true
+      }
+    },
+    "trust": {
+      "type": "trust-features",
+      "settings": {}
+    }
+  },
+  "order": ["hero", "brand_selector", "featured_products", "trust"]
+}
