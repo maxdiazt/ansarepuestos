@@ -1,4 +1,12 @@
-{% render 'brand-data' %}
+{% assign modelos_renault   = "Logan,Sandero,Sandero Stepway,Duster,Kwid,Symbol,Megane,Fluence,Clio,Captur,Koleos,Kangoo,Master,Trafic,Scenic,Laguna,Latitude,Express" | split: "," %}
+{% assign modelos_mazda     = "Mazda 2,Mazda 3,Mazda 6,CX-3,CX-5,CX-9,BT-50,MX-5,CX-30,CX-50,323,626" | split: "," %}
+{% assign modelos_suzuki    = "Swift,Vitara,Grand Vitara,Jimny,Baleno,Dzire,Ciaz,Ignis,S-Cross,Alto" | split: "," %}
+{% assign modelos_greatwall = "Wingle 5,Wingle 7,H1,H2,H5,H6,Voleex C30" | split: "," %}
+{% assign modelos_changan   = "CS35,CS35 Plus,CS55,CS55 Plus,CS75,Alsvin,Eado,UNI-T,Oshan X5,CS95" | split: "," %}
+
+{% assign cat_handles = "mantencion,desgaste,reparacion,carroceria,especialidades,accesorios-y-herramientas" | split: "," %}
+{% assign cat_labels  = "Mantencion,Desgaste,Reparacion,Carroceria,Especialidades,Accesorios y Herramientas" | split: "," %}
+{% assign cat_iconos  = "🔧,⚙️,🔩,🚗,⚡,🛠️" | split: "," %}
 
 <section class="brand-selector" id="brand-selector">
 
