@@ -2,34 +2,31 @@
   <div class="container">
     <div class="trust-grid">
       <div class="trust-feature">
-        <div class="trust-icon" aria-hidden="true">🔍</div>
+        <div class="trust-icon">🔍</div>
         <h3>Búsqueda por modelo</h3>
-        <p>Filtra directamente por marca y modelo exacto de tu vehículo. Sin confusiones ni compatibilidades dudosas.</p>
+        <p>Filtra por marca y modelo exacto de tu vehículo. Sin confusiones.</p>
       </div>
       <div class="trust-feature">
-        <div class="trust-icon" aria-hidden="true">✅</div>
+        <div class="trust-icon">✅</div>
         <h3>Compatibilidad garantizada</h3>
-        <p>Cada repuesto muestra los vehículos compatibles. Compra con certeza total.</p>
+        <p>Cada repuesto muestra los vehículos compatibles. Compra con certeza.</p>
       </div>
       <div class="trust-feature">
-        <div class="trust-icon" aria-hidden="true">🚚</div>
+        <div class="trust-icon">🚚</div>
         <h3>Despacho a todo Chile</h3>
-        <p>Enviamos en 24–48 horas hábiles. Gratis sobre $50.000 en compras.</p>
+        <p>Enviamos en 24–48 horas hábiles. Gratis sobre $50.000.</p>
       </div>
       <div class="trust-feature">
-        <div class="trust-icon" aria-hidden="true">💬</div>
+        <div class="trust-icon">💬</div>
         <h3>Asesoría técnica</h3>
-        <p>¿Dudas? Nuestro equipo técnico te ayuda a identificar el repuesto correcto para tu auto.</p>
+        <p>Nuestro equipo técnico te ayuda a identificar el repuesto correcto.</p>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-.trust-section {
-  padding: 64px 0;
-  border-top: 1px solid var(--color-border);
-}
+.trust-section { padding: 64px 0; border-top: 1px solid var(--color-border); }
 .trust-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -45,9 +42,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition: background var(--transition);
 }
-.trust-feature:hover { background: #1c1c22; }
 .trust-icon {
   font-size: 24px;
   width: 50px; height: 50px;
@@ -63,22 +58,14 @@
   letter-spacing: .04em;
   text-transform: uppercase;
 }
-.trust-feature p {
-  font-size: 13px;
-  color: var(--color-muted);
-  line-height: 1.55;
-}
-@media (max-width: 900px) {
-  .trust-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 480px) {
-  .trust-grid { grid-template-columns: 1fr; }
-}
+.trust-feature p { font-size: 13px; color: var(--color-muted); line-height: 1.55; }
+@media (max-width: 900px) { .trust-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .trust-grid { grid-template-columns: 1fr; } }
 </style>
 
 {% schema %}
 {
-  "name": "Características / Confianza",
+  "name": "Características",
   "tag": "div",
   "presets": [{ "name": "Características ANSA" }]
 }

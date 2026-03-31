@@ -8,6 +8,23 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "brand_selector": {
+      "type": "brand-selector",
+      "settings": {}
+    },
+    "trust": {
+      "type": "trust-features",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "brand_selector",
+    "trust"
+  ]
 }
