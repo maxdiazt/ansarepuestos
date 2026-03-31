@@ -16,31 +16,41 @@
       <div class="bs-marcas-grid">
 
         <button class="bs-marca-card" data-marca="renault" data-nombre="Renault" data-modelos="{{ modelos_renault | join: '|' }}" onclick="ANSA.selectMarca(this)">
-          <div class="bs-marca-icon"><div class="bs-marca-ring">◇</div><span>RENAULT</span></div>
+          <div class="bs-marca-logo">
+            <img src="https://cdn.shopify.com/s/files/1/0822/4296/1620/files/marca-auto-renault.webp?v=1774955401" alt="Renault">
+          </div>
           <div class="bs-marca-name">Renault</div>
           <div class="bs-marca-count">{{ modelos_renault | size }} modelos</div>
         </button>
 
         <button class="bs-marca-card" data-marca="mazda" data-nombre="Mazda" data-modelos="{{ modelos_mazda | join: '|' }}" onclick="ANSA.selectMarca(this)">
-          <div class="bs-marca-icon"><div class="bs-marca-ring">⊙</div><span>MAZDA</span></div>
+          <div class="bs-marca-logo">
+            <img src="https://cdn.shopify.com/s/files/1/0822/4296/1620/files/marca-auto-mazda.webp?v=1774955401" alt="Mazda">
+          </div>
           <div class="bs-marca-name">Mazda</div>
           <div class="bs-marca-count">{{ modelos_mazda | size }} modelos</div>
         </button>
 
         <button class="bs-marca-card" data-marca="suzuki" data-nombre="Suzuki" data-modelos="{{ modelos_suzuki | join: '|' }}" onclick="ANSA.selectMarca(this)">
-          <div class="bs-marca-icon"><div class="bs-marca-ring">S</div><span>SUZUKI</span></div>
+          <div class="bs-marca-logo">
+            <img src="https://cdn.shopify.com/s/files/1/0822/4296/1620/files/marca-auto-suzuki.webp?v=1774955401" alt="Suzuki">
+          </div>
           <div class="bs-marca-name">Suzuki</div>
           <div class="bs-marca-count">{{ modelos_suzuki | size }} modelos</div>
         </button>
 
         <button class="bs-marca-card" data-marca="great-wall" data-nombre="Great Wall" data-modelos="{{ modelos_greatwall | join: '|' }}" onclick="ANSA.selectMarca(this)">
-          <div class="bs-marca-icon"><div class="bs-marca-ring">⬡</div><span>GREAT WALL</span></div>
+          <div class="bs-marca-logo">
+            <img src="https://cdn.shopify.com/s/files/1/0822/4296/1620/files/marca-auto-great-wall.webp?v=1774955401" alt="Great Wall">
+          </div>
           <div class="bs-marca-name">Great Wall</div>
           <div class="bs-marca-count">{{ modelos_greatwall | size }} modelos</div>
         </button>
 
         <button class="bs-marca-card" data-marca="changan" data-nombre="Changan" data-modelos="{{ modelos_changan | join: '|' }}" onclick="ANSA.selectMarca(this)">
-          <div class="bs-marca-icon"><div class="bs-marca-ring">C</div><span>CHANGAN</span></div>
+          <div class="bs-marca-logo">
+            <img src="https://cdn.shopify.com/s/files/1/0822/4296/1620/files/marca-auto-changan.webp?v=1774955401" alt="Changan">
+          </div>
           <div class="bs-marca-name">Changan</div>
           <div class="bs-marca-count">{{ modelos_changan | size }} modelos</div>
         </button>
@@ -53,7 +63,7 @@
     <div class="container">
       <div class="bs-panel-header">
         <div class="bs-panel-title">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#e8350f;display:flex;align-items:center;gap:10px">02 — Modelo</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#e8350f">02 — Modelo</div>
           <h3 id="bs-marca-selected-name">&nbsp;</h3>
         </div>
         <button class="bs-btn-outline" onclick="ANSA.closeModelos()">&#8592; Cambiar marca</button>
@@ -90,14 +100,30 @@
 .bs-section-label h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: #7a7a8a; white-space: nowrap; }
 .bs-section-label::after { content: ''; flex: 1; height: 1px; background: #2a2a33; }
 .bs-marcas-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-.bs-marca-card { background: #18181d; border: 1px solid #2a2a33; border-radius: 4px; padding: 32px 20px 24px; cursor: pointer; transition: all .22s ease; text-align: center; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
-.bs-marca-card:hover, .bs-marca-card.is-active { border-color: #e8350f; transform: translateY(-4px); box-shadow: 0 12px 40px rgba(232,53,15,.15); }
-.bs-marca-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.bs-marca-ring { width: 56px; height: 56px; border: 2px solid #2a2a33; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #7a7a8a; transition: all .22s; }
-.bs-marca-card:hover .bs-marca-ring, .bs-marca-card.is-active .bs-marca-ring { border-color: #e8350f; color: #e8350f; background: rgba(232,53,15,.08); }
-.bs-marca-icon > span { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .12em; color: #7a7a8a; }
-.bs-marca-card:hover .bs-marca-icon > span, .bs-marca-card.is-active .bs-marca-icon > span { color: #e8350f; }
-.bs-marca-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: .04em; text-transform: uppercase; color: #f0eff5; }
+.bs-marca-card {
+  background: #18181d; border: 1px solid #2a2a33; border-radius: 4px;
+  padding: 28px 20px 20px; cursor: pointer; transition: all .22s ease;
+  text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%;
+}
+.bs-marca-card:hover, .bs-marca-card.is-active {
+  border-color: #e8350f; transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(232,53,15,.15);
+}
+.bs-marca-logo {
+  width: 100%; height: 60px;
+  display: flex; align-items: center; justify-content: center;
+}
+.bs-marca-logo img {
+  max-width: 100%; max-height: 60px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(1.8);
+  transition: filter .22s;
+}
+.bs-marca-card:hover .bs-marca-logo img,
+.bs-marca-card.is-active .bs-marca-logo img {
+  filter: grayscale(0) brightness(1);
+}
+.bs-marca-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 16px; letter-spacing: .04em; text-transform: uppercase; color: #f0eff5; }
 .bs-marca-count { font-size: 11px; color: #7a7a8a; }
 .bs-marca-card.is-active .bs-marca-count { color: #e8350f; }
 .bs-panel-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; gap: 16px; }
