@@ -1,11 +1,54 @@
-<div style="background:#e8350f; color:white; padding:40px; text-align:center;">
-  <h1>ANSA FUNCIONA</h1>
-</div>
+<section class="hero-section">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <div class="eyebrow animate-fade-up">Especialistas en repuestos originales y alternativos</div>
+      <h1 class="heading hero-heading animate-fade-up delay-1">
+        {{ section.settings.heading_line1 | default: 'Repuestos para' }}<br>
+        <em>{{ section.settings.heading_line2 | default: 'tu auto,' }}</em><br>
+        {{ section.settings.heading_line3 | default: 'al precio justo.' }}
+      </h1>
+      <p class="hero-sub animate-fade-up delay-2">
+        {{ section.settings.subheading | default: 'Selecciona tu marca, modelo y categoría. Encontrarás el repuesto exacto que necesitas.' }}
+      </p>
+      <div class="hero-cta animate-fade-up delay-3">
+        <a href="#brand-selector" class="btn btn-primary">Buscar repuesto</a>
+        <a href="/pages/consulta-tecnica" class="btn btn-secondary">Consulta técnica</a>
+      </div>
+    </div>
+    <div class="hero-stats hide-mobile animate-fade-up delay-2">
+      <div class="hero-stat">
+        <div class="hero-stat__number">5</div>
+        <div class="hero-stat__label">Marcas</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat__number">+2K</div>
+        <div class="hero-stat__label">Productos</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat__number">48h</div>
+        <div class="hero-stat__label">Despacho</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-{% schema %}
-{
-  "name": "Hero",
-  "tag": "div",
-  "presets": [{ "name": "Hero ANSA" }]
+<style>
+.hero-section {
+  position: relative;
+  padding: 80px 0 90px;
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
 }
-{% endschema %}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 70% 50%, rgba(232,53,15,.07) 0%, transparent 70%),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,.016) 39px, rgba(255,255,255,.016) 40px);
+}
+.hero-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px
