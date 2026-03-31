@@ -12,7 +12,7 @@
 
   <div class="bs-step bs-step--marcas">
     <div class="container">
-      <div class="section-label"><h2>01 — Selecciona tu marca</h2></div>
+      <div class="bs-section-label"><h2>01 — Selecciona tu marca</h2></div>
       <div class="bs-marcas-grid">
 
         <button class="bs-marca-card" data-marca="renault" data-nombre="Renault" data-modelos="{{ modelos_renault | join: '|' }}" onclick="ANSA.selectMarca(this)">
@@ -53,10 +53,10 @@
     <div class="container">
       <div class="bs-panel-header">
         <div class="bs-panel-title">
-          <div class="eyebrow" style="font-size:11px">02 — Modelo</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#e8350f;display:flex;align-items:center;gap:10px">02 — Modelo</div>
           <h3 id="bs-marca-selected-name">&nbsp;</h3>
         </div>
-        <button class="btn-outline" onclick="ANSA.closeModelos()">&#8592; Cambiar marca</button>
+        <button class="bs-btn-outline" onclick="ANSA.closeModelos()">&#8592; Cambiar marca</button>
       </div>
       <div class="bs-modelos-grid" id="bs-modelos-grid"></div>
     </div>
@@ -64,7 +64,7 @@
 
   <div class="bs-step bs-step--categorias" id="bs-categorias-panel">
     <div class="container">
-      <div class="section-label">
+      <div class="bs-section-label">
         <h2 id="bs-categorias-title">03 — Selecciona categoria de repuesto</h2>
       </div>
       <div class="bs-categorias-grid">
@@ -83,69 +83,39 @@
 
 <style>
 .brand-selector { padding-bottom: 16px; }
-.bs-step { padding: 56px 0; border-bottom: 1px solid var(--color-border); }
-.bs-step--modelos, .bs-step--categorias {
-  display: none; background: var(--color-surface); border-top: 2px solid var(--color-accent);
-}
+.bs-step { padding: 56px 0; border-bottom: 1px solid #2a2a33; }
+.bs-step--modelos, .bs-step--categorias { display: none; background: #111114; border-top: 2px solid #e8350f; }
 .bs-step--modelos.is-open, .bs-step--categorias.is-open { display: block; }
+.bs-section-label { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
+.bs-section-label h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: #7a7a8a; white-space: nowrap; }
+.bs-section-label::after { content: ''; flex: 1; height: 1px; background: #2a2a33; }
 .bs-marcas-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-.bs-marca-card {
-  background: var(--color-card); border: 1px solid var(--color-border);
-  border-radius: var(--radius-md); padding: 32px 20px 24px; cursor: pointer;
-  transition: all var(--transition); text-align: center; position: relative;
-  overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%;
-}
-.bs-marca-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, var(--color-accent), transparent 60%);
-  opacity: 0; transition: opacity var(--transition);
-}
-.bs-marca-card:hover, .bs-marca-card.is-active {
-  border-color: var(--color-accent); transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(232,53,15,.15);
-}
-.bs-marca-card.is-active::before, .bs-marca-card:hover::before { opacity: .07; }
-.bs-marca-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; z-index: 1; }
-.bs-marca-ring {
-  width: 56px; height: 56px; border: 2px solid var(--color-border); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; font-size: 18px;
-  color: var(--color-muted); transition: all var(--transition);
-}
-.bs-marca-card:hover .bs-marca-ring, .bs-marca-card.is-active .bs-marca-ring {
-  border-color: var(--color-accent); color: var(--color-accent); background: rgba(232,53,15,.08);
-}
-.bs-marca-icon > span {
-  font-family: var(--font-heading); font-size: 9px; font-weight: 700;
-  letter-spacing: .12em; color: var(--color-muted); transition: color var(--transition);
-}
-.bs-marca-card:hover .bs-marca-icon > span, .bs-marca-card.is-active .bs-marca-icon > span { color: var(--color-accent); }
-.bs-marca-name { font-family: var(--font-heading); font-weight: 800; font-size: 18px; letter-spacing: .04em; text-transform: uppercase; position: relative; z-index: 1; }
-.bs-marca-count { font-size: 11px; color: var(--color-muted); position: relative; z-index: 1; transition: color var(--transition); }
-.bs-marca-card.is-active .bs-marca-count { color: var(--color-accent); }
+.bs-marca-card { background: #18181d; border: 1px solid #2a2a33; border-radius: 4px; padding: 32px 20px 24px; cursor: pointer; transition: all .22s ease; text-align: center; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
+.bs-marca-card:hover, .bs-marca-card.is-active { border-color: #e8350f; transform: translateY(-4px); box-shadow: 0 12px 40px rgba(232,53,15,.15); }
+.bs-marca-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.bs-marca-ring { width: 56px; height: 56px; border: 2px solid #2a2a33; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #7a7a8a; transition: all .22s; }
+.bs-marca-card:hover .bs-marca-ring, .bs-marca-card.is-active .bs-marca-ring { border-color: #e8350f; color: #e8350f; background: rgba(232,53,15,.08); }
+.bs-marca-icon > span { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .12em; color: #7a7a8a; }
+.bs-marca-card:hover .bs-marca-icon > span, .bs-marca-card.is-active .bs-marca-icon > span { color: #e8350f; }
+.bs-marca-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: .04em; text-transform: uppercase; color: #f0eff5; }
+.bs-marca-count { font-size: 11px; color: #7a7a8a; }
+.bs-marca-card.is-active .bs-marca-count { color: #e8350f; }
 .bs-panel-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; gap: 16px; }
-.bs-panel-title h3 { font-family: var(--font-heading); font-weight: 800; font-size: 32px; text-transform: uppercase; line-height: 1; margin-top: 6px; }
+.bs-panel-title h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; text-transform: uppercase; color: #f0eff5; line-height: 1; margin-top: 6px; }
 .bs-modelos-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-.bs-modelo-chip {
-  background: var(--color-card); border: 1px solid var(--color-border); color: var(--color-text);
-  padding: 10px 20px; font-family: var(--font-heading); font-weight: 600; font-size: 13px;
-  letter-spacing: .06em; text-transform: uppercase; cursor: pointer;
-  border-radius: var(--radius-sm); transition: all var(--transition);
-}
-.bs-modelo-chip:hover { background: rgba(232,53,15,.08); border-color: var(--color-accent); color: var(--color-accent); }
-.bs-modelo-chip.is-active { background: var(--color-accent); border-color: var(--color-accent); color: white; }
+.bs-modelo-chip { background: #18181d; border: 1px solid #2a2a33; color: #f0eff5; padding: 10px 20px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: all .22s; }
+.bs-modelo-chip:hover { background: rgba(232,53,15,.08); border-color: #e8350f; color: #e8350f; }
+.bs-modelo-chip.is-active { background: #e8350f; border-color: #e8350f; color: white; }
 .bs-categorias-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
-.bs-cat-card {
-  background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius-md);
-  padding: 28px 16px 20px; cursor: pointer; text-align: center; transition: all var(--transition);
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  text-decoration: none; color: var(--color-text);
-}
-.bs-cat-card:hover { border-color: var(--color-accent); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(232,53,15,.15); }
+.bs-cat-card { background: #18181d; border: 1px solid #2a2a33; border-radius: 4px; padding: 28px 16px 20px; cursor: pointer; text-align: center; transition: all .22s; display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; color: #f0eff5; }
+.bs-cat-card:hover { border-color: #e8350f; transform: translateY(-3px); box-shadow: 0 12px 40px rgba(232,53,15,.15); }
 .bs-cat-icon { font-size: 28px; line-height: 1; }
-.bs-cat-name { font-family: var(--font-heading); font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; line-height: 1.2; transition: color var(--transition); }
-.bs-cat-card:hover .bs-cat-name { color: var(--color-accent); }
+.bs-cat-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; line-height: 1.2; }
+.bs-cat-card:hover .bs-cat-name { color: #e8350f; }
+.bs-btn-outline { background: transparent; color: #7a7a8a; border: 1px solid #2a2a33; padding: 10px 20px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: all .22s; }
+.bs-btn-outline:hover { color: #f0eff5; }
 @media (max-width: 1100px) { .bs-marcas-grid { grid-template-columns: repeat(3, 1fr); } .bs-categorias-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 600px) { .bs-marcas-grid { grid-template-columns: repeat(2, 1fr); } .bs-categorias-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .bs-marcas-grid { grid-template-columns: repeat(2, 1fr); } .bs-categorias-grid { grid-template-columns: repeat(2, 1fr); } .bs-panel-header { flex-direction: column; align-items: flex-start; } }
 </style>
 
 <script>
