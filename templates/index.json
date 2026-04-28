@@ -17,7 +17,7 @@
       "type": "trust-features",
       "settings": {}
     },
-    "brand_selector_bt9Ma8": {
+    "brand_selector_GKGhYB": {
       "type": "brand-selector",
       "name": "Selector de Marcas ANSA",
       "settings": {}
@@ -26,6 +26,6 @@
   "order": [
     "hero",
     "trust",
-    "brand_selector_bt9Ma8"
+    "brand_selector_GKGhYB"
   ]
 }
