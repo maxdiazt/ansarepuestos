@@ -13,19 +13,19 @@
       "type": "hero",
       "settings": {}
     },
-    "brand_selector_bwGX3D": {
-      "type": "brand-selector",
-      "name": "Selector de Marcas ANSA",
-      "settings": {}
-    },
     "trust": {
       "type": "trust-features",
+      "settings": {}
+    },
+    "brand_selector_bt9Ma8": {
+      "type": "brand-selector",
+      "name": "Selector de Marcas ANSA",
       "settings": {}
     }
   },
   "order": [
     "hero",
-    "brand_selector_bwGX3D",
-    "trust"
+    "trust",
+    "brand_selector_bt9Ma8"
   ]
 }
