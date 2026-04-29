@@ -172,7 +172,7 @@ window.ANSA = window.ANSA || {};
   ANSA.goToCollection = function(catHandle) {
     if (!selectedMarca || !selectedModelo) { return false; }
     var slug = selectedModelo.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-');
-    window.location.href = '/collections/' + selectedMarca + '--' + slug + '--' + catHandle;
+    window.location.href = '/collections/' + selectedMarca + '-' + slug + '-' + catHandle;
     return false;
   };
   ANSA.closeModelos = function() {
