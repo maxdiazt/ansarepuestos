@@ -1,0 +1,890 @@
+{% liquid
+  assign show_announcement = true
+
+  if section.settings.home_only and request.page_type != 'index'
+    assign show_announcement = false
+  endif
+
+  case section.settings.separator_style
+    when 'dot'
+      assign separator_character = '•'
+    when 'slash'
+      assign separator_character = '/'
+    when 'diamond'
+      assign separator_character = '◆'
+    when 'line'
+      assign separator_character = '—'
+    else
+      assign separator_character = '•'
+  endcase
+%}
+
+{% if section.settings.enable_bar and show_announcement %}
+  {% capture primary_items %}
+    {% for block in section.blocks %}
+      {% assign message_text = block.settings.text | strip %}
+
+      {% if message_text != blank %}
+        <div
+          class="
+            ansa-announcement__item
+            ansa-announcement__item--{{ block.settings.visibility }}
+            {% if block.settings.highlight %}ansa-announcement__item--highlight{% endif %}
+          "
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.link != blank %}
+            <a
+              class="ansa-announcement__link"
+              href="{{ block.settings.link }}"
+              {% if block.settings.open_new_tab %}
+                target="_blank"
+                rel="noopener noreferrer"
+              {% endif %}
+            >
+          {% endif %}
+
+          {% if block.settings.show_marker %}
+            <span
+              class="ansa-announcement__marker"
+              style="--marker-color: {{ block.settings.marker_color }};"
+              aria-hidden="true"
+            ></span>
+          {% endif %}
+
+          <span class="ansa-announcement__text">
+            {{ block.settings.text }}
+          </span>
+
+          {% if block.settings.link != blank %}
+            </a>
+          {% endif %}
+
+          {% if section.settings.show_separators %}
+            <span
+              class="ansa-announcement__separator"
+              aria-hidden="true"
+            >
+              {{ separator_character }}
+            </span>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% endcapture %}
+
+  {% capture duplicate_items %}
+    {% for block in section.blocks %}
+      {% assign message_text = block.settings.text | strip %}
+
+      {% if message_text != blank %}
+        <div
+          class="
+            ansa-announcement__item
+            ansa-announcement__item--{{ block.settings.visibility }}
+            {% if block.settings.highlight %}ansa-announcement__item--highlight{% endif %}
+          "
+        >
+          {% if block.settings.link != blank %}
+            <a
+              class="ansa-announcement__link"
+              href="{{ block.settings.link }}"
+              tabindex="-1"
+              {% if block.settings.open_new_tab %}
+                target="_blank"
+                rel="noopener noreferrer"
+              {% endif %}
+            >
+          {% endif %}
+
+          {% if block.settings.show_marker %}
+            <span
+              class="ansa-announcement__marker"
+              style="--marker-color: {{ block.settings.marker_color }};"
+              aria-hidden="true"
+            ></span>
+          {% endif %}
+
+          <span class="ansa-announcement__text">
+            {{ block.settings.text }}
+          </span>
+
+          {% if block.settings.link != blank %}
+            </a>
+          {% endif %}
+
+          {% if section.settings.show_separators %}
+            <span
+              class="ansa-announcement__separator"
+              aria-hidden="true"
+            >
+              {{ separator_character }}
+            </span>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% endcapture %}
+
+  <aside
+    id="AnsaAnnouncement-{{ section.id }}"
+    class="
+      ansa-announcement
+      ansa-announcement--desktop-{{ section.settings.desktop_mode }}
+      ansa-announcement--mobile-{{ section.settings.mobile_mode }}
+      ansa-announcement--direction-{{ section.settings.direction }}
+      {% if section.settings.pause_on_hover %}ansa-announcement--pause-hover{% endif %}
+      {% if section.settings.uppercase %}ansa-announcement--uppercase{% endif %}
+    "
+    aria-label="Anuncios de la tienda"
+  >
+    <div class="ansa-announcement__viewport">
+      <div class="ansa-announcement__track">
+        <div class="ansa-announcement__group ansa-announcement__group--primary">
+          {{ primary_items }}
+        </div>
+
+        <div
+          class="ansa-announcement__group ansa-announcement__group--clone"
+          aria-hidden="true"
+        >
+          {{ duplicate_items }}
+        </div>
+
+        <div
+          class="ansa-announcement__group ansa-announcement__group--clone"
+          aria-hidden="true"
+        >
+          {{ duplicate_items }}
+        </div>
+
+        <div
+          class="ansa-announcement__group ansa-announcement__group--clone"
+          aria-hidden="true"
+        >
+          {{ duplicate_items }}
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <style>
+    #AnsaAnnouncement-{{ section.id }} {
+      --ansa-announcement-background: {{ section.settings.background_color }};
+      --ansa-announcement-text: {{ section.settings.text_color }};
+      --ansa-announcement-accent: {{ section.settings.accent_color }};
+      --ansa-announcement-border: {{ section.settings.border_color }};
+
+      --ansa-announcement-height-desktop: {{ section.settings.height_desktop }}px;
+      --ansa-announcement-height-mobile: {{ section.settings.height_mobile }}px;
+
+      --ansa-announcement-font-desktop: {{ section.settings.font_size_desktop }}px;
+      --ansa-announcement-font-mobile: {{ section.settings.font_size_mobile }}px;
+
+      --ansa-announcement-gap: {{ section.settings.item_gap }}px;
+      --ansa-announcement-padding: {{ section.settings.horizontal_padding }}px;
+      --ansa-announcement-content-width: {{ section.settings.content_width }}px;
+      --ansa-announcement-duration: {{ section.settings.animation_speed }}s;
+      --ansa-announcement-border-width: {{ section.settings.border_width }}px;
+
+      position: relative;
+      z-index: {{ section.settings.z_index }};
+      width: 100%;
+      min-height: var(--ansa-announcement-height-desktop);
+      overflow: hidden;
+      background: var(--ansa-announcement-background);
+      color: var(--ansa-announcement-text);
+      border-bottom:
+        var(--ansa-announcement-border-width)
+        solid
+        var(--ansa-announcement-border);
+    }
+
+    #AnsaAnnouncement-{{ section.id }} *,
+    #AnsaAnnouncement-{{ section.id }} *::before,
+    #AnsaAnnouncement-{{ section.id }} *::after {
+      box-sizing: border-box;
+    }
+
+    #AnsaAnnouncement-{{ section.id }} .ansa-announcement__viewport {
+      width: 100%;
+      min-height: inherit;
+      overflow: hidden;
+    }
+
+    #AnsaAnnouncement-{{ section.id }} .ansa-announcement__track {
+      display: flex;
+      align-items: stretch;
+      width: max-content;
+      min-height: inherit;
+      will-change: transform;
+    }
+
+    #AnsaAnnouncement-{{ section.id }} .ansa-announcement__group {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: space-around;
+      width: max-content;
+      min-width: 100vw;
+      min-height: inherit;
+      gap: var(--ansa-announcement-gap);
+      padding-inline: var(--ansa-announcement-padding);
+    }
+
+    #AnsaAnnouncement-{{ section.id }} .ansa-announcement__item {
+      display: inline-flex;
+      flex: 0 0 auto;
+      align-items: center;
+      min-width: 0;
+      color: inherit;
+      font-size: var(--ansa-announcement-font-desktop);
+      font-weight: {{ section.settings.font_weight }};
+      line-height: 1.2;
+      letter-spacing: {{ section.settings.letter_spacing | divided_by: 100.0 }}em;
+      white-space: nowrap;
+    }
+
+    #AnsaAnnouncement-{{ section.id }} .ansa-announcement__item--highlight {
+      color: var(--ansa-announcement-accent);
+      font-weight: 700;
+    }
+
+    #AnsaAnnouncement-{{ section.id }} .ansa-announcement__link {
+      display: inline-flex;
+      align-items: center;
+      color: inherit;
+      text-decoration: none;
+      transition:
+        color 180ms ease,
+        opacity 180ms ease;
+    }
+
+    #AnsaAnnouncement-{{ section.id }} .ansa-announcement__link:hover {
+      color: var(--ansa-announcement-accent);
+    }
+
+    #AnsaAnnouncement-{{ section.id }} .ansa-announcement__link:focus-visible {
+      outline: 2px solid var(--ansa-announcement-accent);
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
+    #AnsaAnnouncement-{{ section.id }} .ansa-announcement__marker {
+      display: inline-block;
+      flex: 0 0 auto;
+      width: {{ section.settings.marker_size }}px;
+      height: {{ section.settings.marker_size }}px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: var(--marker-color, var(--ansa-announcement-accent));
+      box-shadow: 0 0 10px color-mix(
+        in srgb,
+        var(--marker-color, var(--ansa-announcement-accent)) 45%,
+        transparent
+      );
+    }
+
+    #AnsaAnnouncement-{{ section.id }} .ansa-announcement__separator {
+      display: inline-flex;
+      align-items: center;
+      margin-left: var(--ansa-announcement-gap);
+      color: var(--ansa-announcement-accent);
+      font-size: 0.85em;
+      opacity: {{ section.settings.separator_opacity | divided_by: 100.0 }};
+    }
+
+    #AnsaAnnouncement-{{ section.id }}
+      .ansa-announcement__group
+      .ansa-announcement__item:last-child
+      .ansa-announcement__separator {
+      display: none;
+    }
+
+    #AnsaAnnouncement-{{ section.id }}.ansa-announcement--uppercase
+      .ansa-announcement__text {
+      text-transform: uppercase;
+    }
+
+    /*
+      Visibilidad por dispositivo
+    */
+
+    #AnsaAnnouncement-{{ section.id }}
+      .ansa-announcement__item--mobile {
+      display: none;
+    }
+
+    /*
+      Modo estático desktop
+    */
+
+    #AnsaAnnouncement-{{ section.id }}.ansa-announcement--desktop-static
+      .ansa-announcement__track {
+      width: 100%;
+      animation: none;
+      transform: none;
+    }
+
+    #AnsaAnnouncement-{{ section.id }}.ansa-announcement--desktop-static
+      .ansa-announcement__group--primary {
+      width: min(100%, var(--ansa-announcement-content-width));
+      min-width: 0;
+      margin-inline: auto;
+      justify-content: space-between;
+    }
+
+    #AnsaAnnouncement-{{ section.id }}.ansa-announcement--desktop-static
+      .ansa-announcement__group--clone {
+      display: none;
+    }
+
+    /*
+      Modo marquesina desktop
+    */
+
+    #AnsaAnnouncement-{{ section.id }}.ansa-announcement--desktop-marquee
+      .ansa-announcement__track {
+      animation-duration: var(--ansa-announcement-duration);
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    #AnsaAnnouncement-{{ section.id }}.ansa-announcement--desktop-marquee.ansa-announcement--direction-left
+      .ansa-announcement__track {
+      animation-name: ansaAnnouncementLeft-{{ section.id }};
+    }
+
+    #AnsaAnnouncement-{{ section.id }}.ansa-announcement--desktop-marquee.ansa-announcement--direction-right
+      .ansa-announcement__track {
+      animation-name: ansaAnnouncementRight-{{ section.id }};
+    }
+
+    #AnsaAnnouncement-{{ section.id }}.ansa-announcement--pause-hover:hover
+      .ansa-announcement__track {
+      animation-play-state: paused;
+    }
+
+    @keyframes ansaAnnouncementLeft-{{ section.id }} {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+
+      to {
+        transform: translate3d(-25%, 0, 0);
+      }
+    }
+
+    @keyframes ansaAnnouncementRight-{{ section.id }} {
+      from {
+        transform: translate3d(-25%, 0, 0);
+      }
+
+      to {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @media screen and (max-width: 749px) {
+      #AnsaAnnouncement-{{ section.id }} {
+        min-height: var(--ansa-announcement-height-mobile);
+      }
+
+      #AnsaAnnouncement-{{ section.id }} .ansa-announcement__item {
+        font-size: var(--ansa-announcement-font-mobile);
+      }
+
+      #AnsaAnnouncement-{{ section.id }}
+        .ansa-announcement__item--desktop {
+        display: none;
+      }
+
+      #AnsaAnnouncement-{{ section.id }}
+        .ansa-announcement__item--mobile {
+        display: inline-flex;
+      }
+
+      /*
+        Modo estático móvil
+      */
+
+      #AnsaAnnouncement-{{ section.id }}.ansa-announcement--mobile-static
+        .ansa-announcement__track {
+        width: 100%;
+        animation: none;
+        transform: none;
+      }
+
+      #AnsaAnnouncement-{{ section.id }}.ansa-announcement--mobile-static
+        .ansa-announcement__group--primary {
+        width: 100%;
+        min-width: 0;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-inline: var(--ansa-announcement-padding);
+        scrollbar-width: none;
+      }
+
+      #AnsaAnnouncement-{{ section.id }}.ansa-announcement--mobile-static
+        .ansa-announcement__group--primary::-webkit-scrollbar {
+        display: none;
+      }
+
+      #AnsaAnnouncement-{{ section.id }}.ansa-announcement--mobile-static
+        .ansa-announcement__group--clone {
+        display: none;
+      }
+
+      /*
+        Modo marquesina móvil
+      */
+
+      #AnsaAnnouncement-{{ section.id }}.ansa-announcement--mobile-marquee
+        .ansa-announcement__track {
+        display: flex;
+        width: max-content;
+        animation-duration: var(--ansa-announcement-duration);
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+
+      #AnsaAnnouncement-{{ section.id }}.ansa-announcement--mobile-marquee
+        .ansa-announcement__group {
+        display: flex;
+        width: max-content;
+        min-width: 100vw;
+      }
+
+      #AnsaAnnouncement-{{ section.id }}.ansa-announcement--mobile-marquee.ansa-announcement--direction-left
+        .ansa-announcement__track {
+        animation-name: ansaAnnouncementLeft-{{ section.id }};
+      }
+
+      #AnsaAnnouncement-{{ section.id }}.ansa-announcement--mobile-marquee.ansa-announcement--direction-right
+        .ansa-announcement__track {
+        animation-name: ansaAnnouncementRight-{{ section.id }};
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #AnsaAnnouncement-{{ section.id }} .ansa-announcement__track {
+        width: 100%;
+        animation: none !important;
+        transform: none !important;
+      }
+
+      #AnsaAnnouncement-{{ section.id }}
+        .ansa-announcement__group--primary {
+        width: 100%;
+        min-width: 0;
+        justify-content: center;
+      }
+
+      #AnsaAnnouncement-{{ section.id }}
+        .ansa-announcement__group--clone {
+        display: none !important;
+      }
+    }
+  </style>
+{% endif %}
+
+{% schema %}
+{
+  "name": "ANSA - Barra de anuncios",
+  "tag": "section",
+  "class": "ansa-announcement-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Visibilidad"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_bar",
+      "label": "Mostrar barra",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "home_only",
+      "label": "Mostrar solamente en la página de inicio",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Comportamiento"
+    },
+    {
+      "type": "select",
+      "id": "desktop_mode",
+      "label": "Comportamiento en desktop",
+      "options": [
+        {
+          "value": "static",
+          "label": "Estático"
+        },
+        {
+          "value": "marquee",
+          "label": "Movimiento continuo"
+        }
+      ],
+      "default": "static"
+    },
+    {
+      "type": "select",
+      "id": "mobile_mode",
+      "label": "Comportamiento en móvil",
+      "options": [
+        {
+          "value": "static",
+          "label": "Estático"
+        },
+        {
+          "value": "marquee",
+          "label": "Movimiento continuo"
+        }
+      ],
+      "default": "marquee"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Dirección del movimiento",
+      "options": [
+        {
+          "value": "left",
+          "label": "Hacia la izquierda"
+        },
+        {
+          "value": "right",
+          "label": "Hacia la derecha"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "animation_speed",
+      "min": 8,
+      "max": 80,
+      "step": 1,
+      "unit": "s",
+      "label": "Duración del recorrido",
+      "info": "Un valor mayor produce un movimiento más lento.",
+      "default": 28
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pausar al pasar el cursor",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colores"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Fondo",
+      "default": "#0C0D10"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texto",
+      "default": "#A9ADB7"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Color de acento",
+      "default": "#F13A16"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Color del borde inferior",
+      "default": "#292C33"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Grosor del borde inferior",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Tamaño y espaciado"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 26,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Altura en desktop",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 24,
+      "max": 52,
+      "step": 1,
+      "unit": "px",
+      "label": "Altura en móvil",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "font_size_desktop",
+      "min": 9,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Tamaño de texto en desktop",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Tamaño de texto en móvil",
+      "default": 10
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Grosor del texto",
+      "options": [
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medio"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "checkbox",
+      "id": "uppercase",
+      "label": "Mostrar texto en mayúsculas",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "label": "Espaciado entre letras",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "min": 12,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Separación entre anuncios",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "min": 10,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Margen horizontal",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 900,
+      "max": 1800,
+      "step": 50,
+      "unit": "px",
+      "label": "Ancho máximo en modo estático",
+      "default": 1400
+    },
+    {
+      "type": "header",
+      "content": "Separadores"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_separators",
+      "label": "Mostrar separadores",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "separator_style",
+      "label": "Tipo de separador",
+      "options": [
+        {
+          "value": "dot",
+          "label": "Punto"
+        },
+        {
+          "value": "slash",
+          "label": "Diagonal"
+        },
+        {
+          "value": "diamond",
+          "label": "Diamante"
+        },
+        {
+          "value": "line",
+          "label": "Línea"
+        }
+      ],
+      "default": "dot"
+    },
+    {
+      "type": "range",
+      "id": "separator_opacity",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Opacidad del separador",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "marker_size",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Tamaño de los puntos",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Avanzado"
+    },
+    {
+      "type": "range",
+      "id": "z_index",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "label": "Nivel de superposición",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Anuncio",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texto",
+          "default": "Despacho a todo Chile"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_tab",
+          "label": "Abrir enlace en una pestaña nueva",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "visibility",
+          "label": "Visibilidad",
+          "options": [
+            {
+              "value": "all",
+              "label": "Desktop y móvil"
+            },
+            {
+              "value": "desktop",
+              "label": "Solo desktop"
+            },
+            {
+              "value": "mobile",
+              "label": "Solo móvil"
+            }
+          ],
+          "default": "all"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Usar color de acento",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_marker",
+          "label": "Mostrar punto antes del texto",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "marker_color",
+          "label": "Color del punto",
+          "default": "#25D366"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ANSA - Barra de anuncios",
+      "blocks": [
+        {
+          "type": "message",
+          "settings": {
+            "text": "Despacho a todo Chile",
+            "show_marker": true,
+            "marker_color": "#25D366"
+          }
+        },
+        {
+          "type": "message",
+          "settings": {
+            "text": "Atención Lun–Vie 9:00–18:00",
+            "show_marker": false
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
