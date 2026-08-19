@@ -63,7 +63,7 @@
             {% assign lbl_idx = forloop.index0 %}
             <option
               value="{{ opt }}"
-              {% if collection.sort_by == opt or (collection.sort_by == blank and opt == 'manual') %}selected{% endif %}
+              {% if collection.sort_by == opt or collection.sort_by == blank and opt == 'manual' %}selected{% endif %}
             >
               {{ sort_labels[lbl_idx] }}
             </option>
@@ -141,3 +141,15 @@
   color: var(--color-muted);
 }
 </style>
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% if collection.sort_by == opt or (collection.sort_by == blank and opt ==
+    'manual') %}"
+  to: "{% if collection.sort_by == opt or collection.sort_by == blank and opt == 'manual'
+    %}"
+  position: 2682..2767
+{% endcomment %}
